@@ -81,6 +81,65 @@ in views.py in the class:
 Update the item:
 
 create new html file::update_task.html
-<form>
-
+<form method="POST" action=''>
+    {% csrf_token %}
+    {{form}}
+    <input type='submit' name='Update Task'>
 <input type >
+
+in the views.py for the updating the form 
+create a new method for this new url
+def updateTask(request, pk): /so my url will be now (somename/1) for pk = 1 /
+    task = Model-name.objects.get(id = pk)
+    form = TaskForm(instance=task)
+
+    if request.method == "POST":
+        form = TaskForm(request.POST, instance=task)
+        if form.is__valid():
+            form.save()
+        return redirect('/')  
+    context = {'form': form}
+    return render(request, 'tasks/update_task.html)
+
+in the tasks/urls.py::
+append path('update_task/<str:pk>', views.updateTask, name='update_task')
+
+
+Now  in the list.html /The first template/ 
+
+create a url link to each item as ::
+<a href='{%  url 'update_task' task.id %}'> Uppdate the item <a>
+
+
+DELETE the item
+first create a new html file as delete.html
+pass in the title to check
+create a method in views 
+
+def deleteTask(request, pk):
+    item = Task.objects.get(id=pk)
+    context = {'item':item}
+    return  render(request, 'task/delete.html')
+
+in the tasks url file 
+path('delete/<str:pk>', views.deleteTask, name='delete')
+
+create a form in the delete.html file and in the views mmethod for POST:
+just item.delete() redirec('/')
+
+
+NNow to cross out the complete tasks::
+for thats in the list.html 
+
+{% if task.complete == True %}
+<strike>{{task}}</strike>
+{% else %}
+<span>{{task}}</span>
+{% endif %}
+
+
+
+For Styling I am trying to use only Bootstrap
+So for that 
+create a folder static in the application
+in static configure the static as ::
