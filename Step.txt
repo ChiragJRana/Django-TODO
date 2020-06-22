@@ -1,0 +1,86 @@
+Create the application using startproject
+run server to test  whether it is working
+migrate the admin and user database   makemigrations  and then  migrate 
+Create Super User
+Login to check whether it is working
+startapp to create the application
+Go to  settings.py and add the application name in INSTALLED_APPS
+create a view to test index(request): HttpResponse('hello')
+create a urls.py in the application
+In the base url include path :: path('',include('appname.urls'))
+runserver to check whether the urls are nicely mapped
+Build a template:::
+create a folder templates in the app and another folder named app-name
+add the template .html in templates/app-name
+To render::
+ Goto views return render(request, 'app-name/templatename.html')
+
+create the model :: 
+class model-name(modls.Model):
+    include the fields 
+    def __str__(self):
+    return self.any_text-variable that you want to return
+Make the makemigrations and then migrate
+
+Check runserver
+to view the tablein the admin   
+
+To view the model in the admin panel ::
+admin.py::
+from .models import *
+admin.site.regiter(model-name)
+
+
+Now render the views::
+i.e import the model
+create the object of the model 
+context = {
+    it is a dictionary 'value name for the frontend': value of the object
+}
+
+reurn render(request, 'task/template-name.html', context)
+
+Inside the template create a for loop to view the data
+Check the output whether it is working or not
+
+Creating the model form:
+inside the app create the forms.py 
+
+from django import froms and from django.forms import ModelForm
+import the models
+
+class model-nameForm(forms.ModelForm):
+    class Meta:
+        model = Model-name
+        fields = '__all__'
+
+Import the form in the views.py
+    form = formname()
+    and append this object to the context variable
+    'form': form
+
+In template we can create the form by 
+<form method="POST" action="/">
+{% csrf_token %}
+{{form.element-name // Or just the form to view all the input forms //}}
+<input type='submit' name= 'Create Task//Or any name of the button//'>
+ 
+</form>
+
+Check the form on the Front End
+
+To really post the data to the database:
+
+in views.py in the class:
+    if request.method == 'POST':
+        form = form-name(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('/')
+
+Update the item:
+
+create new html file::update_task.html
+<form>
+
+<input type >
